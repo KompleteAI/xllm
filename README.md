@@ -21,8 +21,7 @@ etc)
 
 Developed by [@BobaZooba](https://huggingface.co/BobaZooba) | E-mail: [bobazooba@gmail.com](mailto:bobazooba@gmail.com)
 
-I'm open to work &
-partnership: [Advising](https://komplete.framer.ai) | [My CV](https://docs.google.com/document/d/1BhFvIHQ1mpm81P-n2A-lhNac-U2wOGc6F2uS9gKvk88/edit?usp=sharing) | [My LinkedIn](https://www.linkedin.com/in/boriszubarev/)
+Open for partnership: [Advising](https://komplete.framer.ai) | [CV](https://docs.google.com/document/d/1BhFvIHQ1mpm81P-n2A-lhNac-U2wOGc6F2uS9gKvk88/edit?usp=sharing) | [LinkedIn](https://www.linkedin.com/in/boriszubarev/)
 
 </div>
 
