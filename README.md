@@ -8,7 +8,7 @@
 
 [![PyPI - Version](https://img.shields.io/pypi/v/xllm.svg?logo=pypi&label=PyPI&logoColor=gold&color=63C462)](https://pypi.org/project/xllm/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/xllm.svg?color=63C462&label=Downloads&logo=pypi&logoColor=gold)](https://pypi.org/project/xllm/)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/xllm.svg?logo=python&label=Python&logoColor=gold&color=63C462)](https://pypi.org/project/xllm/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/xllm?logo=python&label=Python&logoColor=gold&color=63C462)](https://pypi.org/project/xllm/)
 
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/modelfront/predictor/blob/master/.pre-commit-config.yaml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
