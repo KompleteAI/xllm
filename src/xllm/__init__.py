@@ -18,7 +18,7 @@ __version__ = "0.0.1"
 
 from . import enums, types
 from .cli.fuse import cli_run_fuse
-from .cli.prepare import cli_run_preprare
+from .cli.prepare import cli_run_prepare
 from .cli.train import cli_run_train
 from .core.config import HuggingFaceConfig
 from .run.fuse import fuse
