@@ -4,6 +4,8 @@
 
 # How to implement dataset
 
+Берешь и делаешь
+
 # How to add CLI tools to your project
 
 ## Требования к формату выхода примеров
