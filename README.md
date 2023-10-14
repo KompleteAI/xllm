@@ -1,20 +1,20 @@
 # 🦖 X—LLM: Simple & Cutting Edge LLM Finetuning
 
-# WORK IN PROGRESS
-
 <div align="center">
 
 [![Build](https://github.com/KompleteAI/xllm/actions/workflows/build.yaml/badge.svg?branch=main)](https://github.com/KompleteAI/xllm/actions/workflows/build.yaml)
 [![Github: License](https://img.shields.io/github/license/KompleteAI/xllm.svg?color=blue)](https://github.com/KompleteAI/xllm/blob/main/LICENSE)
 [![Github: Release](https://img.shields.io/github/v/release/kompleteai/xllm.svg)](https://github.com/KompleteAI/xllm/releases)
+
+[![PyPI - Version](https://img.shields.io/pypi/v/xllm.svg?logo=pypi&label=PyPI&logoColor=gold)](https://pypi.org/project/xllm/)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/xllm.svg?color=blue&label=Downloads&logo=pypi&logoColor=gold)](https://pypi.org/project/xllm/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/xllm.svg?logo=python&label=Python&logoColor=gold)](https://pypi.org/project/xllm/)
+
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/modelfront/predictor/blob/master/.pre-commit-config.yaml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![codecov](https://codecov.io/gh/KompleteAI/xllm/graph/badge.svg?token=ZOBMDXVW4B)](https://codecov.io/gh/KompleteAI/xllm)
-[![PyPI - Version](https://img.shields.io/pypi/v/xllm.svg?logo=pypi&label=PyPI&logoColor=gold)](https://pypi.org/project/xllm/)
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/xllmling.svg?color=blue&label=Downloads&logo=pypi&logoColor=gold)](https://pypi.org/project/xllm/)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/xllm.svg?logo=python&label=Python&logoColor=gold)](https://pypi.org/project/xllm/)
 
 Easy & cutting edge LLM finetuning using the most advanced methods (QLoRA, DeepSpeed, GPTQ, Flash Attention 2, FSDP,
 etc)
