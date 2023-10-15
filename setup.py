@@ -57,7 +57,7 @@ install_requires = [
 # Setup
 setup(
     name="xllm",
-    version="0.0.3-dev",
+    version="0.0.4",
     description="Simple & Cutting Edge LLM Finetuning",
     license_files=["LICENSE"],
     long_description=open("README.md", "r", encoding="utf-8").read(),
