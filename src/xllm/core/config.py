@@ -84,7 +84,7 @@ class HuggingFaceConfig:
             "help": "HuggingFace Hub token. You can also set this key using .env file",
         },
     )
-    deepspeed_stage: Union[int, str, None] = field(
+    deepspeed_stage: Optional[int] = field(
         default=0,
         metadata={
             "help": "DeepSpeed stage",
@@ -439,9 +439,7 @@ class HuggingFaceConfig:
             "evaluation can be performed, depending on the evaluation_strategy"
         },
     )
-    eval_steps: Union[int, float, None] = field(
-        default=1000, metadata={"help": "Number of update steps between two evaluations"}
-    )
+    eval_steps: Optional[int] = field(default=1000, metadata={"help": "Number of update steps between two evaluations"})
     warmup_steps: int = field(
         default=1000,
         metadata={
