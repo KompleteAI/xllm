@@ -57,7 +57,7 @@ install_requires = [
 # Setup
 setup(
     name="xllm",
-    version="0.0.2-dev",
+    version="0.0.3",
     description="Simple & Cutting Edge LLM Finetuning",
     license_files=["LICENSE"],
     long_description=open("README.md", "r", encoding="utf-8").read(),
@@ -95,12 +95,11 @@ setup(
 
 # Release checklist
 # 1. Change the version in __init__.py and setup.py.
-# 2. Commit these changes with the message: "Release: VERSION"
-# 3. Run make test-pypi-release VERSION=VERSION
-# 4. Make sure test pypi works correct
-# 5. Run pypi-upload
-# 6. Add release notes to the tag in github once everything is looking hunky-dory.
-# 7. Update the version in __init__.py, setup.py to the new version "-dev" and push to master
+# 2. Run "make test-pypi-release VERSION=VERSION"
+# 3. Make sure test pypi works correct
+# 4. Run "make pypi-upload"
+# 5. Add release notes to the tag in github once everything is looking hunky-dory.
+# 6. Add new dev "make push-dev-version VERSION=VERSION"
 
 
 # Legacy Release checklist
