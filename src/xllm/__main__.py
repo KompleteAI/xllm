@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from .cli.train import cli_run_train
-from .core.config import HuggingFaceConfig
+from .core.config import Config
 
 if __name__ == "__main__":
-    cli_run_train(config_cls=HuggingFaceConfig)
+    cli_run_train(config_cls=Config)

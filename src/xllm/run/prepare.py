@@ -23,11 +23,11 @@ from transformers import (
     PreTrainedTokenizer,
 )
 
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..datasets.registry import datasets_registry
 
 
-def prepare(config: HuggingFaceConfig) -> Tuple[PreTrainedTokenizer, PreTrainedModel]:
+def prepare(config: Config) -> Tuple[PreTrainedTokenizer, PreTrainedModel]:
     json_config = json.dumps(config.__dict__, indent=2)
     logger.info(f"Config:\n{json_config}")
 

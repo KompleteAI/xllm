@@ -16,4 +16,4 @@
 
 from ..utils.logger import dist_logger
 from ..utils.post_training import fuse_lora
-from .config import HuggingFaceConfig
+from .config import Config

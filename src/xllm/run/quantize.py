@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..quantization.quantizer import Quantizer
 
 
-def quantize(config: HuggingFaceConfig) -> Quantizer:
+def quantize(config: Config) -> Quantizer:
     quantizer = Quantizer(config=config)
     quantizer.build()
     quantizer.quantize()

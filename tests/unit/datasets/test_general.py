@@ -3,7 +3,7 @@ from typing import List, Optional
 import pytest
 
 from src.xllm import enums
-from src.xllm.core.config import HuggingFaceConfig
+from src.xllm.core.config import Config
 from src.xllm.datasets.general import GeneralDataset
 
 
@@ -12,13 +12,13 @@ def test_init():
 
 
 def test_get_data():
-    config = HuggingFaceConfig()
+    config = Config()
     value = GeneralDataset.get_data(config=config)
     assert value is None
 
 
 def test_prepare_exception():
-    config = HuggingFaceConfig()
+    config = Config()
     with pytest.raises(ValueError):
         GeneralDataset.prepare(config=config)
 

@@ -4,7 +4,7 @@ from typing import List, Optional, Tuple
 import pytest
 
 from src.xllm import enums
-from src.xllm.core.config import HuggingFaceConfig
+from src.xllm.core.config import Config
 from src.xllm.datasets.base import BaseDataset
 from src.xllm.types import RawSample
 from tests.helpers.dummy_data import DATA
@@ -12,7 +12,7 @@ from tests.helpers.dummy_data import DATA
 
 class TestDataset(BaseDataset):
     @classmethod
-    def get_data(cls, config: HuggingFaceConfig) -> Tuple[List[RawSample], Optional[List[RawSample]]]:
+    def get_data(cls, config: Config) -> Tuple[List[RawSample], Optional[List[RawSample]]]:
         return DATA, DATA
 
     def get_sample(self, index: int) -> RawSample:
@@ -22,7 +22,7 @@ class TestDataset(BaseDataset):
         return sample
 
 
-def test_base_dataset_exception(config: HuggingFaceConfig):
+def test_base_dataset_exception(config: Config):
     train_data, _ = TestDataset.get_data(config=config)
     dataset = TestDataset(data=train_data)
     with pytest.raises(ValueError):
@@ -30,7 +30,7 @@ def test_base_dataset_exception(config: HuggingFaceConfig):
 
 
 def test_prepare(path_to_empty_train_dummy_data: str, path_to_empty_eval_dummy_data: str):
-    config = HuggingFaceConfig(
+    config = Config(
         train_local_path_to_data=path_to_empty_train_dummy_data,
         eval_local_path_to_data=path_to_empty_eval_dummy_data,
     )
@@ -38,7 +38,7 @@ def test_prepare(path_to_empty_train_dummy_data: str, path_to_empty_eval_dummy_d
 
 
 def test_prepare_eval_path_is_none(path_to_empty_train_dummy_data: str):
-    config = HuggingFaceConfig(
+    config = Config(
         train_local_path_to_data=path_to_empty_train_dummy_data,
         add_eval_to_train_if_no_path=True,
     )
@@ -46,7 +46,7 @@ def test_prepare_eval_path_is_none(path_to_empty_train_dummy_data: str):
 
 
 def test_prepare_eval_max_samples(path_to_empty_train_dummy_data: str, path_to_empty_eval_dummy_data: str):
-    config = HuggingFaceConfig(
+    config = Config(
         train_local_path_to_data=path_to_empty_train_dummy_data,
         eval_local_path_to_data=path_to_empty_eval_dummy_data,
         add_eval_to_train_if_no_path=True,

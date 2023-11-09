@@ -20,10 +20,10 @@ from loguru import logger
 
 from xllm import enums
 
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 
 
-def setup_cli(config: HuggingFaceConfig, logger_path: str = "xllm.log", rotation: str = "5 MB") -> None:
+def setup_cli(config: Config, logger_path: str = "xllm.log", rotation: str = "5 MB") -> None:
     logger.add(logger_path, rotation=rotation)
     load_dotenv(dotenv_path=config.path_to_env_file)
     logger.info(".env loaded")

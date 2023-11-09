@@ -4,7 +4,7 @@ import datasets
 from tqdm import tqdm
 
 from src.xllm import enums
-from src.xllm.core.config import HuggingFaceConfig
+from src.xllm.core.config import Config
 from src.xllm.datasets.base import BaseDataset
 from src.xllm.types import RawSample
 
@@ -13,7 +13,7 @@ class AntropicDataset(BaseDataset):
     _HF_DATASET_ID = "Anthropic/hh-rlhf"
 
     @classmethod
-    def get_data(cls, config: HuggingFaceConfig) -> Tuple[List[RawSample], Optional[List[RawSample]]]:
+    def get_data(cls, config: Config) -> Tuple[List[RawSample], Optional[List[RawSample]]]:
         rlhf_dataset = datasets.load_dataset(cls._HF_DATASET_ID)
 
         parsed_data: Dict[str, List[RawSample]] = dict()

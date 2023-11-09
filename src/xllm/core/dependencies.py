@@ -35,7 +35,7 @@ from transformers import (
 from .. import enums
 from ..collators.base import BaseCollator
 from ..collators.registry import collators_registry
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..datasets.base import BaseDataset
 from ..datasets.registry import datasets_registry
 from ..trainers.lm import LMTrainer
@@ -43,7 +43,7 @@ from ..trainers.registry import trainers_registry
 from ..utils.logger import dist_logger
 
 
-def build_training_arguments(config: HuggingFaceConfig) -> TrainingArguments:
+def build_training_arguments(config: Config) -> TrainingArguments:
     if torch.cuda.is_available():
         if torch.cuda.is_bf16_supported() and not config.force_fp16:
             fp16 = False
@@ -99,7 +99,7 @@ def build_training_arguments(config: HuggingFaceConfig) -> TrainingArguments:
     return training_arguments
 
 
-def build_dataset(config: HuggingFaceConfig, is_train: bool = True, **kwargs: Any) -> Optional[BaseDataset]:
+def build_dataset(config: Config, is_train: bool = True, **kwargs: Any) -> Optional[BaseDataset]:
     if is_train:
         path_to_data = config.train_local_path_to_data
     elif config.eval_local_path_to_data is not None:
@@ -117,7 +117,7 @@ def build_dataset(config: HuggingFaceConfig, is_train: bool = True, **kwargs: An
     return dataset
 
 
-def build_tokenizer(config: HuggingFaceConfig, use_fast: Optional[bool] = None) -> PreTrainedTokenizer:
+def build_tokenizer(config: Config, use_fast: Optional[bool] = None) -> PreTrainedTokenizer:
     kwargs = dict()
 
     if use_fast is not None:
@@ -140,7 +140,7 @@ def build_tokenizer(config: HuggingFaceConfig, use_fast: Optional[bool] = None) 
     return tokenizer
 
 
-def build_collator(config: HuggingFaceConfig, tokenizer: PreTrainedTokenizer, **kwargs: Any) -> BaseCollator:
+def build_collator(config: Config, tokenizer: PreTrainedTokenizer, **kwargs: Any) -> BaseCollator:
     collator_cls: Type[BaseCollator] = collators_registry.get(key=config.collator_key)
 
     if not issubclass(collator_cls, BaseCollator):
@@ -152,7 +152,7 @@ def build_collator(config: HuggingFaceConfig, tokenizer: PreTrainedTokenizer, **
 
 
 def build_quantization_config(
-    config: HuggingFaceConfig,
+    config: Config,
 ) -> Union[BitsAndBytesConfig, GPTQConfig, None]:
     if config.from_gptq:
         quantization_config = GPTQConfig(
@@ -177,7 +177,7 @@ def build_quantization_config(
 
 
 def build_model(
-    config: HuggingFaceConfig,
+    config: Config,
     quantization_config: Union[BitsAndBytesConfig, GPTQConfig, None],
     low_cpu_mem_usage: Optional[bool] = None,
 ) -> PreTrainedModel:
@@ -222,7 +222,7 @@ def build_model(
 
 
 def build_trainer(
-    config: HuggingFaceConfig,
+    config: Config,
     pad_token_id: int,
     training_arguments: TrainingArguments,
     model: Union[PreTrainedModel, PeftModel],

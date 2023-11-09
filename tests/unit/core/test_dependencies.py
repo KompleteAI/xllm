@@ -11,7 +11,7 @@ from transformers import (
 
 from src.xllm.collators.lm import LMCollator
 from src.xllm.collators.registry import collators_registry
-from src.xllm.core.config import HuggingFaceConfig
+from src.xllm.core.config import Config
 from src.xllm.core.dependencies import (
     build_collator,
     build_dataset,
@@ -29,7 +29,7 @@ from tests.helpers.dummy_data import DATA, DummyDataset
 from tests.helpers.patches import patch_from_pretrained_auto_causal_lm
 
 
-def test_build_training_arguments(config: HuggingFaceConfig):
+def test_build_training_arguments(config: Config):
     arguments = build_training_arguments(config=config)
     assert arguments.per_device_train_batch_size == config.per_device_train_batch_size
     assert arguments.deepspeed is None
@@ -37,21 +37,21 @@ def test_build_training_arguments(config: HuggingFaceConfig):
 
 def test_build_dataset_train(path_to_train_dummy_data: str):
     datasets_registry.add(key="dummy", value=DummyDataset)
-    config = HuggingFaceConfig(dataset_key="dummy", train_local_path_to_data=path_to_train_dummy_data)
+    config = Config(dataset_key="dummy", train_local_path_to_data=path_to_train_dummy_data)
     dataset = build_dataset(config=config, is_train=True)
     assert dataset[0] is not None
 
 
 def test_build_dataset_eval(path_to_train_dummy_data: str):
     datasets_registry.add(key="dummy1", value=DummyDataset)
-    config = HuggingFaceConfig(dataset_key="dummy1", eval_local_path_to_data=path_to_train_dummy_data)
+    config = Config(dataset_key="dummy1", eval_local_path_to_data=path_to_train_dummy_data)
     dataset = build_dataset(config=config, is_train=False)
     assert dataset[0] is not None
 
 
 def test_build_dataset_eval_none(path_to_train_dummy_data: str):
     datasets_registry.add(key="dummy2", value=DummyDataset)
-    config = HuggingFaceConfig(
+    config = Config(
         dataset_key="dummy2",
         train_local_path_to_data=path_to_train_dummy_data,
         eval_local_path_to_data=None,
@@ -61,31 +61,31 @@ def test_build_dataset_eval_none(path_to_train_dummy_data: str):
 
 
 def test_build_dataset_exception(path_to_train_dummy_data: str):
-    datasets_registry.add(key="exc", value=HuggingFaceConfig)
-    config = HuggingFaceConfig(dataset_key="exc", train_local_path_to_data=path_to_train_dummy_data)
+    datasets_registry.add(key="exc", value=Config)
+    config = Config(dataset_key="exc", train_local_path_to_data=path_to_train_dummy_data)
     with pytest.raises(ValueError):
         build_dataset(config=config, is_train=True)
 
 
 def test_build_tokenizer():
-    config = HuggingFaceConfig(tokenizer_name_or_path=LLAMA_TOKENIZER_DIR)
+    config = Config(tokenizer_name_or_path=LLAMA_TOKENIZER_DIR)
     tokenizer = build_tokenizer(config=config)
     tokenizer("hello")
 
 
 def test_build_tokenizer_use_fast():
-    config = HuggingFaceConfig(tokenizer_name_or_path=LLAMA_TOKENIZER_DIR)
+    config = Config(tokenizer_name_or_path=LLAMA_TOKENIZER_DIR)
     tokenizer = build_tokenizer(config=config, use_fast=False)
     tokenizer("hello")
 
 
 def test_build_tokenizer_padding_size():
-    config = HuggingFaceConfig(tokenizer_name_or_path=LLAMA_TOKENIZER_DIR, tokenizer_padding_side="right")
+    config = Config(tokenizer_name_or_path=LLAMA_TOKENIZER_DIR, tokenizer_padding_side="right")
     tokenizer = build_tokenizer(config=config)
     tokenizer("hello")
 
 
-def test_build_collator(config: HuggingFaceConfig, llama_tokenizer: PreTrainedTokenizer):
+def test_build_collator(config: Config, llama_tokenizer: PreTrainedTokenizer):
     collator = build_collator(config=config, tokenizer=llama_tokenizer)
     batch = collator(DATA)
     for value in batch.values():
@@ -93,21 +93,21 @@ def test_build_collator(config: HuggingFaceConfig, llama_tokenizer: PreTrainedTo
 
 
 def test_build_collator_exception(llama_tokenizer: PreTrainedTokenizer):
-    collators_registry.add(key="exc", value=HuggingFaceConfig)
-    config = HuggingFaceConfig(collator_key="exc")
+    collators_registry.add(key="exc", value=Config)
+    config = Config(collator_key="exc")
     with pytest.raises(ValueError):
         _ = build_collator(config=config, tokenizer=llama_tokenizer)
 
 
 def test_build_quantization_config_bnb():
-    config = HuggingFaceConfig(load_in_8bit=True)
+    config = Config(load_in_8bit=True)
     quantization_config = build_quantization_config(config=config)
     assert isinstance(quantization_config, BitsAndBytesConfig)
     assert quantization_config.load_in_8bit
 
 
 def test_build_quantization_config_gptq():
-    config = HuggingFaceConfig(gptq_bits=4, gptq_group_size=128, from_gptq=True)
+    config = Config(gptq_bits=4, gptq_group_size=128, from_gptq=True)
     quantization_config = build_quantization_config(config=config)
     assert isinstance(quantization_config, GPTQConfig)
     assert quantization_config.bits == 4
@@ -115,14 +115,14 @@ def test_build_quantization_config_gptq():
 
 
 def test_build_quantization_config_none():
-    config = HuggingFaceConfig(from_gptq=False, load_in_4bit=False, load_in_8bit=False)
+    config = Config(from_gptq=False, load_in_4bit=False, load_in_8bit=False)
     quantization_config = build_quantization_config(config=config)
     assert quantization_config is None
 
 
 @pytest.mark.parametrize("apply_lora", [False, True])
 def test_build_model(monkeypatch: MonkeyPatch, apply_lora: bool):
-    config = HuggingFaceConfig(apply_lora=apply_lora)
+    config = Config(apply_lora=apply_lora)
     with patch_from_pretrained_auto_causal_lm(monkeypatch=monkeypatch):
         _ = build_model(
             config=config,
@@ -131,7 +131,7 @@ def test_build_model(monkeypatch: MonkeyPatch, apply_lora: bool):
 
 
 def test_build_model_bnb_after_init(monkeypatch: MonkeyPatch):
-    config = HuggingFaceConfig(bnb_quantize_after_model_init=True)
+    config = Config(bnb_quantize_after_model_init=True)
     with patch_from_pretrained_auto_causal_lm(monkeypatch=monkeypatch):
         _ = build_model(
             config=config,
@@ -140,7 +140,7 @@ def test_build_model_bnb_after_init(monkeypatch: MonkeyPatch):
 
 
 def test_build_trainer(
-    config: HuggingFaceConfig,
+    config: Config,
     training_arguments: TrainingArguments,
     llama_lora_model: PeftModel,
     soda_dataset: SodaDataset,
@@ -168,8 +168,8 @@ def test_build_trainer_exception(
     soda_dataset: SodaDataset,
     llama_lm_collator: LMCollator,
 ):
-    trainers_registry.add(key="exc", value=HuggingFaceConfig)
-    config = HuggingFaceConfig(trainer_key="exc")
+    trainers_registry.add(key="exc", value=Config)
+    config = Config(trainer_key="exc")
     with pytest.raises(ValueError):
         _ = build_trainer(
             config=config,

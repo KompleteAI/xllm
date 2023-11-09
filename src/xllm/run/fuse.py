@@ -17,11 +17,11 @@ from typing import Tuple
 from loguru import logger
 from transformers import PreTrainedModel, PreTrainedTokenizer
 
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..utils.post_training import fuse_lora
 
 
-def fuse(config: HuggingFaceConfig) -> Tuple[PreTrainedTokenizer, PreTrainedModel]:
+def fuse(config: Config) -> Tuple[PreTrainedTokenizer, PreTrainedModel]:
     tokenizer, model = fuse_lora(config=config)
     logger.info("Fusing complete")
 

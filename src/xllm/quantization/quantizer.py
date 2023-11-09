@@ -22,7 +22,7 @@ from tqdm import tqdm
 from transformers import PreTrainedModel, PreTrainedTokenizer
 
 from .. import enums
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..core.dependencies import build_dataset, build_model, build_tokenizer
 from ..datasets.registry import datasets_registry
 from ..utils.logger import dist_logger
@@ -34,7 +34,7 @@ class Quantizer:
 
     def __init__(
         self,
-        config: HuggingFaceConfig,
+        config: Config,
         tokenizer: Optional[PreTrainedTokenizer] = None,
         model: Optional[PreTrainedModel] = None,
         dataset: Union[str, List[str], None] = None,

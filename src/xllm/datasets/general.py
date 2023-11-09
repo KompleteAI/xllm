@@ -15,7 +15,7 @@
 from typing import List, Optional, Tuple
 
 from .. import enums
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..datasets.base import BaseDataset
 from ..types import RawSample
 from ..utils.logger import dist_logger
@@ -34,7 +34,7 @@ class GeneralDataset(BaseDataset):
         self.separator = separator
 
     @classmethod
-    def get_data(cls, config: HuggingFaceConfig) -> Optional[Tuple[List[RawSample], Optional[List[RawSample]]]]:
+    def get_data(cls, config: Config) -> Optional[Tuple[List[RawSample], Optional[List[RawSample]]]]:
         dist_logger.warning(
             "This is a special type of dataset in which it is not supposed to get_data anything. "
             "You must pass the data here through __init__ or use from_list, "

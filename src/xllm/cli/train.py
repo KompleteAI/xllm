@@ -18,14 +18,14 @@ from transformers import (
     HfArgumentParser,
 )
 
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..experiments.base import Experiment
 from ..run.train import train
 from ..utils.cli import setup_cli
 
 
 def cli_run_train(
-    config_cls: Type[HuggingFaceConfig] = HuggingFaceConfig,
+    config_cls: Type[Config] = Config,
 ) -> Experiment:
     parser = HfArgumentParser(config_cls)
     config = parser.parse_args_into_dataclasses()[0]
@@ -35,4 +35,4 @@ def cli_run_train(
 
 
 if __name__ == "__main__":
-    cli_run_train(config_cls=HuggingFaceConfig)
+    cli_run_train(config_cls=Config)

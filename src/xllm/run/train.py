@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..experiments.base import Experiment
 from ..experiments.registry import experiments_registry
 
 
 def train(
-    config: HuggingFaceConfig,
+    config: Config,
 ) -> Experiment:
     experiment_cls = experiments_registry.get(config.experiment_key)
 

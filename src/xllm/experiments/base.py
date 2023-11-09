@@ -30,7 +30,7 @@ from transformers import (
 from transformers.integrations.bitsandbytes import replace_with_bnb_linear
 
 from ..collators.base import BaseCollator
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..core.dependencies import (
     build_collator,
     build_dataset,
@@ -51,7 +51,7 @@ from ..utils.post_training import post_training, push_to_hub_bos_add_bos_token
 class Experiment:
     def __init__(
         self,
-        config: HuggingFaceConfig,
+        config: Config,
         training_arguments: Optional[TrainingArguments] = None,
         train_dataset: Optional[BaseDataset] = None,
         eval_dataset: Optional[BaseDataset] = None,

@@ -16,14 +16,14 @@ from typing import Type
 
 from transformers import HfArgumentParser
 
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..quantization.quantizer import Quantizer
 from ..run.quantize import quantize
 from ..utils.cli import setup_cli
 
 
 def cli_run_quantize(
-    config_cls: Type[HuggingFaceConfig] = HuggingFaceConfig,
+    config_cls: Type[Config] = Config,
 ) -> Quantizer:
     parser = HfArgumentParser(config_cls)
     config = parser.parse_args_into_dataclasses()[0]
@@ -33,4 +33,4 @@ def cli_run_quantize(
 
 
 if __name__ == "__main__":
-    cli_run_quantize(config_cls=HuggingFaceConfig)
+    cli_run_quantize(config_cls=Config)

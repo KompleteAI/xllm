@@ -27,7 +27,7 @@ from ..utils.logger import dist_logger
 
 
 @dataclass
-class HuggingFaceConfig:
+class Config:
     # general
     experiment_key: str = field(
         default=enums.Experiments.base,

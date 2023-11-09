@@ -1,13 +1,13 @@
 from pytest import MonkeyPatch
 
-from src.xllm.core.config import HuggingFaceConfig
+from src.xllm.core.config import Config
 from src.xllm.run.train import train
 from tests.helpers.constants import LLAMA_TOKENIZER_DIR
 from tests.helpers.patches import patch_from_pretrained_auto_causal_lm, patch_trainer_train
 
 
 def test_train(monkeypatch: MonkeyPatch, path_to_train_prepared_dummy_data: str):
-    config = HuggingFaceConfig(
+    config = Config(
         push_to_hub=False,
         deepspeed_stage=0,
         train_local_path_to_data=path_to_train_prepared_dummy_data,

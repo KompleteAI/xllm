@@ -12,28 +12,25 @@
 
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/modelfront/predictor/blob/master/.pre-commit-config.yaml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
 [![codecov](https://codecov.io/gh/KompleteAI/xllm/graph/badge.svg?token=ZOBMDXVW4B)](https://codecov.io/gh/KompleteAI/xllm)
 
 Easy & cutting edge LLM finetuning using the most advanced methods (QLoRA, DeepSpeed, GPTQ, Flash Attention 2, FSDP,
 etc)
 
-Developed by [@BobaZooba](https://huggingface.co/BobaZooba) | E-mail: [bobazooba@gmail.com](mailto:bobazooba@gmail.com)
-
-Open for partnership: [Advising](https://komplete.framer.ai) | [CV](https://docs.google.com/document/d/1BhFvIHQ1mpm81P-n2A-lhNac-U2wOGc6F2uS9gKvk88/edit?usp=sharing) | [LinkedIn](https://www.linkedin.com/in/boriszubarev/)
+Developed by [@BobaZooba](https://t.me/BobaZooba) | [CV](https://docs.google.com/document/d/1BhFvIHQ1mpm81P-n2A-lhNac-U2wOGc6F2uS9gKvk88/edit?usp=sharing) | [LinkedIn](https://www.linkedin.com/in/boriszubarev/) | [bobazooba@gmail.com](mailto:bobazooba@gmail.com)
 
 </div>
 
 # Why you should use X—LLM 🪄
 
-Are you using LLM for your project or research and finding it hard to deal with all the technical details? Wish you
-could focus on the data, the task, and the architectural changes, rather than spending so much time trying to figure out
-how modern LLM training methods work?
+Are you using **Large Language Models (LLMs)** for your work and want to train them more efficiently with advanced methods? Wish to focus on the data and improvements rather than time-consuming coding repetitive for LLM training?
 
-X—LLM is your answer. This easy-to-use library takes care of all training optimization so you can focus on what matters
-the most - improving your models and your data. Updated with the latest technology for training models, X—LLM is
-designed by engineers, for engineers.
+**X—LLM** is your solution. It's a user-friendly library that streamlines training optimization, so you can **focus on enhancing your models and data**. Equipped with **cutting-edge training techniques**, X—LLM is engineered for efficiency by engineers who understand your needs.
+
+
+**X—LLM** is ideal whether you're **gearing up for production** or need a **fast prototyping tool**.
 
 ## Features
 
@@ -45,7 +42,8 @@ designed by engineers, for engineers.
 - Easy-to-use integration with your existing project
 - Customize almost any part of your training with ease
 - Track your training progress using `W&B`
-- Supported many 🤗 Transformers models like `Mistal AI`, `Llama 2`, `Falcon`, `Phi`, `Qwen`, `MPT` and many more
+- Supported many 🤗 Transformers models
+  like `Yi-34B`, `Mistal AI`, `Llama 2`, `Zephyr`, `OpenChat`, `Falcon`, `Phi`, `Qwen`, `MPT` and many more
 - Benefit from cutting-edge advancements in LLM training optimization
   - QLoRA and fusing
   - Flash Attention 2
@@ -56,32 +54,17 @@ designed by engineers, for engineers.
   - FSDP
   - And many more
 
-# Quickstart ⚡
-
-Please check these useful materials:
-
-- [Docs](https://github.com/KompleteAI/xllm/blob/main/DOCS.md): here, we go into detail about everything the library can
-  do
-- [Demo project](https://github.com/KompleteAI/xllm-demo): here's a step-by-step example of how to use X—LLM and fit it
-  into your own project
-- [Template project](https://github.com/KompleteAI/xllm-template): here's a template, a kickoff point you can use for
-  your projects
+# Quickstart 🦖
 
 ## Installation
 
-This repository is tested on Python 3.8+, PyTorch 2.0.1+ and CUDA 11.8.
-
-We recommend [virtual environment](https://docs.python.org/3/library/venv.html) for X—LLM installation. If you're
-unfamiliar with Python virtual environments, check out
-the [user guide](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/).
-
-To install default version run this in command line:
+X—LLM is tested on Python 3.8+, PyTorch 2.0.1+ and CUDA 11.8.
 
 ```bash
 pip install xllm
 ```
 
-To install version which include `deepspeed`, `flash-attn` and `auto-gptq` run this in command line:
+Version which include `deepspeed`, `flash-attn` and `auto-gptq`:
 
 ```bash
 pip install xllm[train]
@@ -89,39 +72,88 @@ pip install xllm[train]
 
 Default `xllm` version recommended for local development, `xllm[train]` recommended for training.
 
-## Run
-
-```python
-from xllm import HuggingFaceConfig
-from xllm.datasets import GeneralDataset
-from xllm.experiments import Experiment
-
-config = HuggingFaceConfig(model_name_or_path="facebook/opt-350m")
-
-train_data = ["Hello!"] * 100
-
-train_dataset = GeneralDataset.from_list(data=train_data)
-experiment = Experiment(config=config, train_dataset=train_dataset)
-
-experiment.build()
-
-experiment.run()
-
-experiment.push_to_hub(repo_id="YOUR_NAME/MODEL_NAME")
-```
-
-### Recommended environment
-
-You will avoid a lot of problems if you use the right environment.
+### Training recommended environment
 
 CUDA version: `11.8`  
 Docker: `huggingface/transformers-pytorch-gpu:latest`
 
-# Using X—LLM 🦖
+## Fast prototyping ⚡
 
-X—LLM is made in order to simplify the local development of the project and its launch on the GPU.
+```python
+from xllm import Config
+from xllm.datasets import GeneralDataset
+from xllm.experiments import Experiment
 
-## Run the existing project
+# 1. Init Config
+config = Config(model_name_or_path="facebook/opt-350m")
+
+# 2. Prepare data
+train_data = ["Hello!"] * 100
+
+# 3. Load data
+train_dataset = GeneralDataset.from_list(data=train_data)
+
+# 4. Init Experiment
+experiment = Experiment(config=config, train_dataset=train_dataset)
+
+# 5. Build Experiment
+experiment.build()
+
+# 6. Run Experiment
+experiment.run()
+
+# 7. [Optional] Push to HF Hub
+experiment.push_to_hub(repo_id="YOUR_NAME/MODEL_NAME")
+```
+
+<details>
+  <summary>LoRA</summary>
+
+#### Simple
+
+```python
+config = Config(model_name_or_path="facebook/opt-350m")
+```
+
+#### Advanced
+
+```python
+config = Config(model_name_or_path="facebook/opt-350m")
+```
+
+</details>
+
+<details>
+  <summary>QLoRA</summary>
+</details>
+
+<details>
+  <summary>Gradient checkpointing</summary>
+</details>
+
+<details>
+  <summary>Flash Attention</summary>
+</details>
+
+<details>
+  <summary>QLoRA, Gradient checkpointing & Flash Attention</summary>
+</details>
+
+<details>
+  <summary>Fuse</summary>
+</details>
+
+<details>
+  <summary>DeepSpeed</summary>
+</details>
+
+<details>
+  <summary>GPTQ Quantization</summary>
+</details>
+
+## Production solution 🚀
+
+Run the existing project
 
 Using X—LLM to train a model is simple and involves these few steps:
 
@@ -215,6 +247,12 @@ To get a handle on building your project with X—LLM, check out the materials b
 
 ## Useful materials
 
+- [Docs](https://github.com/KompleteAI/xllm/blob/main/DOCS.md): here, we go into detail about everything the library can
+  do
+- [Demo project](https://github.com/KompleteAI/xllm-demo): here's a step-by-step example of how to use X—LLM and fit it
+  into your own project
+- [Template project](https://github.com/KompleteAI/xllm-template): here's a template, a kickoff point you can use for
+  your projects
 - [How to implement dataset](!link)
 - [How to add CLI tools to your project](!link)
 - [Demo project](https://github.com/KompleteAI/xllm-demo): here's a step-by-step example of how to use X—LLM and fit it
@@ -230,7 +268,7 @@ single part of each step. Thanks to the config, you can pick your dataset, set y
 quantization during training, decide if you want to use lore, if you need to load a checkpoint in HuggingFace Hub, and a
 lot more.
 
-Config path: `src.xllm.core.config.HuggingFaceConfig`
+Config path: `src.xllm.core.config.Config`
 
 ## Useful materials
 
@@ -257,14 +295,22 @@ For some components like experiment and config, you have the option to just buil
 
 # Projects using X—LLM 🏆
 
-Building something cool with [X—LLM](https://github.com/KompleteAI/xllm)? Kindly reach out to us
-at [bobazooba@gmail.com](mailto:bobazooba@gmail.com). We'd love to hear from you.
+Building something cool with [X—LLM](https://github.com/KompleteAI/xllm)? Kindly reach out to me
+at [bobazooba@gmail.com](mailto:bobazooba@gmail.com). I'd love to hear from you.
 
-## Hall of fame
+## Hall of Fame
 
 Write to us so that we can add your project.
 
 - [Shurale7B-v1](https://huggingface.co/KompleteAI/Shurale7b-v1)
+- [Shurale7B-v1-GPTQ](https://huggingface.co/KompleteAI/Shurale7b-v1-GPTQ)
+
+### Tale Quest
+
+Please support my project for more updates!
+
+<a href="https://www.buymeacoffee.com/talequest" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
 
 ## Badge
 
@@ -286,6 +332,7 @@ well as funding for machine maintenance.
 
 - Add more tests
 - GPU CI using RunPod
+- Add runpod deployment
 - Add multipacking
 - Fix caching in CI
 - Add sequence bucketing
@@ -294,33 +341,3 @@ well as funding for machine maintenance.
 - Add `tensor_parallel`
 - Add auto find max batch size
   - Check max batch size
-
-# Donuts 🍩
-
-Please support me for more updates!
-
-<a href="https://www.buymeacoffee.com/xllm" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-green.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
-
-# Call to partnership 🛰
-
-**Looking for an expert in modern LLMs?** I've got the experience you need. I'll guide you through every step,
-fine-tuning everything from data collection to model training and improvement.
-
-**Why me?** Well, with six years of experience in deep learning R&D projects, I've mastered a range of roles - from
-leading a team to rolling up my sleeves as an engineer. I've built and improved products from scratch and I'm keen to do
-the same for you.
-
-**Worried about your team?** Don't be. With four years as a lecturer at Russia’s best university, I can equip them with
-the skills they need to succeed.
-
-**Want to know more?** Check
-out [my CV](https://docs.google.com/document/d/1BhFvIHQ1mpm81P-n2A-lhNac-U2wOGc6F2uS9gKvk88/edit?usp=sharing), [LinkedIn](https://www.linkedin.com/in/boriszubarev/),
-and [past projects](https://komplete.framer.ai/cases) for the full scoop.
-
-**Ready to start?** Let's arrange a free intro meeting. I'll outline the resources we'll need to make your project a
-success.
-[Contact me form](https://komplete.framer.ai/#contact)
-
-If you're an engineer, I'd appreciate it if you could pass
-along [my LinkedIn](https://www.linkedin.com/in/boriszubarev/) or [website](https://komplete.framer.ai/) to your
-manager.

@@ -1,7 +1,7 @@
 from typing import List, Optional, Tuple
 
 from src.xllm import enums
-from src.xllm.core.config import HuggingFaceConfig
+from src.xllm.core.config import Config
 from src.xllm.datasets.base import BaseDataset
 from src.xllm.datasets.soda import SodaDataset
 from src.xllm.types import RawSample
@@ -61,7 +61,7 @@ RAW_SODA_DATASET = {
 
 class DummyDataset(BaseDataset):
     @classmethod
-    def get_data(cls, config: HuggingFaceConfig) -> Tuple[List[RawSample], Optional[List[RawSample]]]:
+    def get_data(cls, config: Config) -> Tuple[List[RawSample], Optional[List[RawSample]]]:
         return DATA, None
 
     def get_sample(self, index: int) -> RawSample:
