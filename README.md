@@ -584,7 +584,7 @@ well as funding for machine maintenance.
 
 ## Tale Quest
 
-`Tale Quest` is my personal project built using `xllm` and `Shurale`. It's an interactive text-based game in `Telegram` with dynamic AI characters, offering infinite scenarios
+`Tale Quest` is my personal project which was built using `xllm` and `Shurale`. It's an interactive text-based game in `Telegram` with dynamic AI characters, offering infinite scenarios
 
 You will get into exciting journeys and complete fascinating quests. Chat with `George Orwell`, `Tech Entrepreneur`, `Young Wizard`, `Noir Detective`, `Femme Fatale` and many more
 
