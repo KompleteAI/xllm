@@ -98,7 +98,7 @@ experiment = Experiment(config=config, train_dataset=train_dataset)
 
 # 5. Build Experiment.
 # This step takes some time.
-# Make tokenizer and model initialized, LoRA is applied, bittsandbytes quantization is applied, etc
+# Make tokenizer and model initialized, LoRA and bitsandbytes quantization is applied, etc
 experiment.build()
 
 # 6. Run Experiment.
