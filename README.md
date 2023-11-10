@@ -19,16 +19,19 @@
 Easy & cutting edge LLM finetuning using the most advanced methods (QLoRA, DeepSpeed, GPTQ, Flash Attention 2, FSDP,
 etc)
 
-Developed by [@BobaZooba](https://t.me/BobaZooba) | [CV](https://docs.google.com/document/d/1BhFvIHQ1mpm81P-n2A-lhNac-U2wOGc6F2uS9gKvk88/edit?usp=sharing) | [LinkedIn](https://www.linkedin.com/in/boriszubarev/) | [bobazooba@gmail.com](mailto:bobazooba@gmail.com)
+Developed
+by [@BobaZooba](https://t.me/BobaZooba) | [CV](https://docs.google.com/document/d/1BhFvIHQ1mpm81P-n2A-lhNac-U2wOGc6F2uS9gKvk88/edit?usp=sharing) | [LinkedIn](https://www.linkedin.com/in/boriszubarev/) | [bobazooba@gmail.com](mailto:bobazooba@gmail.com)
 
 </div>
 
 # Why you should use X—LLM 🪄
 
-Are you using **Large Language Models (LLMs)** for your work and want to train them more efficiently with advanced methods? Wish to focus on the data and improvements rather than time-consuming coding repetitive for LLM training?
+Are you using **Large Language Models (LLMs)** for your work and want to train them more efficiently with advanced
+methods? Wish to focus on the data and improvements rather than time-consuming coding repetitive for LLM training?
 
-**X—LLM** is your solution. It's a user-friendly library that streamlines training optimization, so you can **focus on enhancing your models and data**. Equipped with **cutting-edge training techniques**, X—LLM is engineered for efficiency by engineers who understand your needs.
-
+**X—LLM** is your solution. It's a user-friendly library that streamlines training optimization, so you can **focus on
+enhancing your models and data**. Equipped with **cutting-edge training techniques**, X—LLM is engineered for efficiency
+by engineers who understand your needs.
 
 **X—LLM** is ideal whether you're **gearing up for production** or need a **fast prototyping tool**.
 
@@ -112,7 +115,7 @@ experiment.push_to_hub(repo_id="YOUR_NAME/MODEL_NAME")
 
 ```python
 config = Config(
-    model_name_or_path="openchat/openchat_3.5", 
+    model_name_or_path="openchat/openchat_3.5",
     apply_lora=True,
 )
 ```
@@ -126,7 +129,8 @@ config = Config(
     lora_rank=8,
     lora_alpha=32,
     lora_dropout=0.05,
-    raw_lora_target_modules="all",  # Names of modules to apply LoRA. A comma-separated string, for example: "k,q,v" or "all".
+    raw_lora_target_modules="all",
+    # Names of modules to apply LoRA. A comma-separated string, for example: "k,q,v" or "all".
 )
 ```
 
@@ -134,7 +138,6 @@ config = Config(
 
 <details>
   <summary>QLoRA</summary>
-
 
 #### Simple
 
@@ -168,7 +171,8 @@ config = Config(
 <details>
   <summary>Stabilize training</summary>
 
-This technique helps to translate some operations into `fp32` for learning stability. It is also useful to use together with LoRA and GPUs that support `bfloat16`.
+This technique helps to translate some operations into `fp32` for learning stability. It is also useful to use together
+with LoRA and GPUs that support `bfloat16`.
 
 ```python
 config = Config(
@@ -218,7 +222,8 @@ config = Config(
 <details>
   <summary>Gradient checkpointing</summary>
 
-This will help to use `less GPU memory` during training, that is, you will be able to learn more than without this technique. The disadvantages of this technique is slowing down the forward step, that is, `slowing down training`.
+This will help to use `less GPU memory` during training, that is, you will be able to learn more than without this
+technique. The disadvantages of this technique is slowing down the forward step, that is, `slowing down training`.
 
 You will be training larger models (for example 7B in colab), but at the expense of training speed.
 
@@ -228,12 +233,14 @@ config = Config(
     use_gradient_checkpointing=True,
 )
 ```
+
 </details>
 
 <details>
   <summary>Flash Attention 2</summary>
 
-This speeds up training and GPU memory consumption, but it does not work with all models and GPUs. You also need to install `flash-attn` for this. This can be done using:  
+This speeds up training and GPU memory consumption, but it does not work with all models and GPUs. You also need to
+install `flash-attn` for this. This can be done using:
 
 `pip install xllm[train]`
 
@@ -243,12 +250,14 @@ config = Config(
     use_flash_attention_2=True,
 )
 ```
+
 </details>
 
 <details>
   <summary>Combine all</summary>
 
 Features:
+
 - QLoRA
 - Gradient checkpointing
 - Flash Attention 2
@@ -297,7 +306,7 @@ You can explicitly specify to fuse the model after training.
 
 ```python
 config = Config(
-    model_name_or_path="HuggingFaceH4/zephyr-7b-beta", 
+    model_name_or_path="HuggingFaceH4/zephyr-7b-beta",
     apply_lora=True,
     fuse_after_training=True,
 )
@@ -326,9 +335,14 @@ experiment.fuse_lora()
 <details>
   <summary>DeepSpeed</summary>
 
-`DeepSpeed` is needed for training models on `multiple GPUs`. `DeepSpeed` allows you to `efficiently manage the resources of several GPUs during training`. For example, you can `distribute the gradients and the state of the optimizer to several GPUs`, rather than storing a complete set of gradients and the state of the optimizer on each GPU. Starting training using `DeepSpeed` can only happen from the `command line`.
+`DeepSpeed` is needed for training models on `multiple GPUs`. `DeepSpeed` allows you
+to `efficiently manage the resources of several GPUs during training`. For example, you
+can `distribute the gradients and the state of the optimizer to several GPUs`, rather than storing a complete set of
+gradients and the state of the optimizer on each GPU. Starting training using `DeepSpeed` can only happen from
+the `command line`.
 
 `train.py`
+
 ```python
 from xllm.core.config import Config
 from xllm.datasets import GeneralDataset
@@ -341,11 +355,13 @@ if __name__ == '__main__':
 ```
 
 Run train (in the `num_gpus` parameter, specify as many GPUs as you have)
+
 ```bash
 deepspeed --num_gpus=8 train.py --deepspeed_stage 2
 ```
 
 You also can pass other parameters
+
 ```bash
 deepspeed --num_gpus=8 train.py \
   --deepspeed_stage 2 \
@@ -358,10 +374,10 @@ deepspeed --num_gpus=8 train.py \
 
 ### Colab notebooks
 
-| Name      | Comment                                                                            | Link |
-|-----------|------------------------------------------------------------------------------------|------|
-| X—LLM Prototyping    | In this notebook you will learn the basics of the library                          | <a target="_blank" href="https://colab.research.google.com/github/https://colab.research.google.com/drive/1zsNmJFns1PKZy5VE5p5nsQL-mZF7SwHf?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> |
-| Llama2 & Mistral AI efficient fine-tuning | 7B model training in colab using QLoRA, bnb int4, gradient checkpointing and X—LLM | <a target="_blank" href="https://colab.research.google.com/github/https://colab.research.google.com/drive/1CNNB_HPhQ8g7piosdehqWlgA30xoLauP?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> |
+| Name                                      | Comment                                                                            | Link                                                                                                                                                                   |
+|-------------------------------------------|------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| X—LLM Prototyping                         | In this notebook you will learn the basics of the library                          | [![xllm_prototyping](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1zsNmJFns1PKZy5VE5p5nsQL-mZF7SwHf?usp=sharing) |
+| Llama2 & Mistral AI efficient fine-tuning | 7B model training in colab using QLoRA, bnb int4, gradient checkpointing and X—LLM | [![Llama2MistalAI](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1CNNB_HPhQ8g7piosdehqWlgA30xoLauP?usp=sharing)   |
 
 ## Production solution 🚀
 
@@ -522,7 +538,6 @@ Write to us so that we can add your project.
 Please support my project for more updates!
 
 <a href="https://www.buymeacoffee.com/talequest" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
-
 
 ## Badge
 
