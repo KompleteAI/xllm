@@ -152,7 +152,7 @@ class Config:
             "help": "Local path to fused model. Useful if you want to quantize model after fusing on the same machine",
         },
     )
-    fuse_after_train: bool = field(
+    fuse_after_training: bool = field(
         default=False,
         metadata={
             "help": "Fuse or not model after training",

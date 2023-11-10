@@ -84,28 +84,24 @@ from xllm import Config
 from xllm.datasets import GeneralDataset
 from xllm.experiments import Experiment
 
-# 1. Init Config which controls the internal logic of xllm
-config = Config(model_name_or_path="facebook/opt-350m")
+# Init Config which controls the internal logic of xllm
+config = Config(model_name_or_path="HuggingFaceH4/zephyr-7b-beta")
 
-# 2. Prepare the data
+# Prepare the data
 train_data = ["Hello!"] * 100
-
-# 3. Load the data
 train_dataset = GeneralDataset.from_list(data=train_data)
 
-# 4. Init Experiment
+# Build Experiment from Config: init tokenizer and model, apply LoRA and so on
 experiment = Experiment(config=config, train_dataset=train_dataset)
-
-# 5. Build Experiment from Config: init tokenizer and model, apply LoRA and so on
 experiment.build()
 
-# 6. Run Experiment (training)
+# Run Experiment (training)
 experiment.run()
 
-# 7. [Optional] Fuse LoRA layers
+# [Optional] Fuse LoRA layers
 experiment.fuse_lora()
 
-# 8. [Optional] Push fused model (or just LoRA weight) to the HuggingFace Hub
+# [Optional] Push fused model (or just LoRA weight) to the HuggingFace Hub
 experiment.push_to_hub(repo_id="YOUR_NAME/MODEL_NAME")
 ```
 
@@ -116,7 +112,7 @@ experiment.push_to_hub(repo_id="YOUR_NAME/MODEL_NAME")
 
 ```python
 config = Config(
-    model_name_or_path="HuggingFaceH4/zephyr-7b-beta", 
+    model_name_or_path="openchat/openchat_3.5", 
     apply_lora=True,
 )
 ```
@@ -125,7 +121,7 @@ config = Config(
 
 ```python
 config = Config(
-    model_name_or_path="HuggingFaceH4/zephyr-7b-beta",
+    model_name_or_path="openchat/openchat_3.5",
     apply_lora=True,
     lora_rank=8,
     lora_alpha=32,
@@ -144,7 +140,7 @@ config = Config(
 
 ```python
 config = Config(
-    model_name_or_path="HuggingFaceH4/zephyr-7b-beta",
+    model_name_or_path="01-ai/Yi-34B",
     apply_lora=True,
     load_in_4bit=True,
     prepare_model_for_kbit_training=True,
@@ -155,7 +151,7 @@ config = Config(
 
 ```python
 config = Config(
-    model_name_or_path="HuggingFaceH4/zephyr-7b-beta",
+    model_name_or_path="01-ai/Yi-34B",
     stabilize=True,
     apply_lora=True,
     load_in_4bit=True,
@@ -303,7 +299,7 @@ You can explicitly specify to fuse the model after training.
 config = Config(
     model_name_or_path="HuggingFaceH4/zephyr-7b-beta", 
     apply_lora=True,
-    fuse_after_train=True,
+    fuse_after_training=True,
 )
 ```
 
@@ -315,7 +311,7 @@ config = Config(
     apply_lora=True,
     load_in_4bit=True,
     prepare_model_for_kbit_training=True,
-    fuse_after_train=True,
+    fuse_after_training=True,
 )
 ```
 
@@ -335,15 +331,27 @@ experiment.fuse_lora()
 `train.py`
 ```python
 from xllm.core.config import Config
+from xllm.datasets import GeneralDataset
 from xllm.cli.train import cli_run_train
 
 if __name__ == '__main__':
-    cli_run_train(config_cls=Config)
+    train_data = ["Hello!"] * 100
+    train_dataset = GeneralDataset.from_list(data=train_data)
+    cli_run_train(config_cls=Config, train_dataset=train_dataset)
 ```
 
-Run train
+Run train (in the `num_gpus` parameter, specify as many GPUs as you have)
 ```bash
 deepspeed --num_gpus=8 train.py --deepspeed_stage 2
+```
+
+You also can pass other parameters
+```bash
+deepspeed --num_gpus=8 train.py \
+  --deepspeed_stage 2 \
+  --apply_lora True \
+  --stabilize True \
+  --use_gradient_checkpointing True
 ```
 
 </details>
@@ -437,7 +445,7 @@ set it up this way for demo purposes, but we're planning to add more datasets so
 download and handle your dataset. Simply put, you take care of your data, and X—LLM handles the rest. We've done it this
 way on purpose, to give you plenty of room to get creative and customize to your heart's content.
 
-## Build your own project
+### Build your own project
 
 To set up your own project using X—LLM, you need to do two things:
 

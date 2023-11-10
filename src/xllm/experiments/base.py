@@ -425,7 +425,7 @@ class Experiment:
 
         self.after_train()
 
-        if self.config.fuse_after_train:
+        if self.config.fuse_after_training:
             self.fuse_lora()
 
         if is_distributed_training():
