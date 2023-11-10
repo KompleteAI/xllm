@@ -84,7 +84,7 @@ from xllm import Config
 from xllm.datasets import GeneralDataset
 from xllm.experiments import Experiment
 
-# 1. Init Config. It controls the internal logic of xllm, whether to apply LoRA and so on
+# 1. Init Config which controls the internal logic of xllm
 config = Config(model_name_or_path="facebook/opt-350m")
 
 # 2. Prepare the data
@@ -93,22 +93,19 @@ train_data = ["Hello!"] * 100
 # 3. Load the data
 train_dataset = GeneralDataset.from_list(data=train_data)
 
-# 4. Init Experiment. Putting everything you need for training together
+# 4. Init Experiment
 experiment = Experiment(config=config, train_dataset=train_dataset)
 
-# 5. Build Experiment.
-# This step takes some time.
-# Make tokenizer and model initialized, LoRA and bitsandbytes quantization is applied, etc
+# 5. Build Experiment from Config: init tokenizer and model, apply LoRA and so on
 experiment.build()
 
-# 6. Run Experiment.
-# This is where the model is trained and all the actions that are specified after the training
+# 6. Run Experiment (training)
 experiment.run()
 
-# 7. [Optional] Fuse LoRA layers. Works even with 4bit and 8bit bitsandbytes quantization
+# 7. [Optional] Fuse LoRA layers
 experiment.fuse_lora()
 
-# 8. [Optional] Push fused model to the HuggingFace Hub
+# 8. [Optional] Push fused model (or just LoRA weight) to the HuggingFace Hub
 experiment.push_to_hub(repo_id="YOUR_NAME/MODEL_NAME")
 ```
 
@@ -118,18 +115,22 @@ experiment.push_to_hub(repo_id="YOUR_NAME/MODEL_NAME")
 #### Simple
 
 ```python
-config = Config(apply_lora=True)
+config = Config(
+    model_name_or_path="HuggingFaceH4/zephyr-7b-beta", 
+    apply_lora=True,
+)
 ```
 
 #### Advanced
 
 ```python
 config = Config(
+    model_name_or_path="HuggingFaceH4/zephyr-7b-beta",
     apply_lora=True,
     lora_rank=8,
     lora_alpha=32,
     lora_dropout=0.05,
-    raw_lora_target_modules="k,q,v",  # Names of modules to apply LoRA. A comma-separated string, for example: "k,q,v" or "all".
+    raw_lora_target_modules="all",  # Names of modules to apply LoRA. A comma-separated string, for example: "k,q,v" or "all".
 )
 ```
 
@@ -137,39 +138,222 @@ config = Config(
 
 <details>
   <summary>QLoRA</summary>
+
+
+#### Simple
+
+```python
+config = Config(
+    model_name_or_path="HuggingFaceH4/zephyr-7b-beta",
+    apply_lora=True,
+    load_in_4bit=True,
+    prepare_model_for_kbit_training=True,
+)
+```
+
+#### Advanced
+
+```python
+config = Config(
+    model_name_or_path="HuggingFaceH4/zephyr-7b-beta",
+    stabilize=True,
+    apply_lora=True,
+    load_in_4bit=True,
+    prepare_model_for_kbit_training=True,
+    llm_int8_threshold=6.0,
+    llm_int8_has_fp16_weight=True,
+    bnb_4bit_use_double_quant=True,
+    bnb_4bit_quant_type="nf4",
+)
+```
+
+</details>
+
+<details>
+  <summary>Stabilize training</summary>
+
+This technique helps to translate some operations into `fp32` for learning stability. It is also useful to use together with LoRA and GPUs that support `bfloat16`.
+
+```python
+config = Config(
+    model_name_or_path="HuggingFaceH4/zephyr-7b-beta",
+    stabilize=True,
+)
+```
+
 </details>
 
 <details>
   <summary>Push checkpoints to the HuggingFace Hub</summary>
+
+Before that, you must log in to `Huggingface Hub` or add an `API Token` to the environment variables.
+
+```python
+config = Config(
+    model_name_or_path="HuggingFaceH4/zephyr-7b-beta",
+    push_to_hub=True,
+    hub_private_repo=True,
+    hub_model_id="BobaZooba/AntModel-7B-XLLM-Demo-LoRA",
+    save_steps=25,
+)
+```
+
+- Checkpoints will be saved locally and in Huggingface Hub each `save_steps`
+- If you train a model with `LoRA`, then only `LoRA` weights will be saved
+
+</details>
+
+<details>
+  <summary>Report to W&B</summary>
+
+Before that, you must log in to `W&B` or add an `API Token` to the environment variables.
+
+```python
+config = Config(
+    model_name_or_path="HuggingFaceH4/zephyr-7b-beta",
+    report_to_wandb=True,
+    wandb_project="xllm-demo",
+    wandb_entity="bobazooba",
+)
+```
+
 </details>
 
 <details>
   <summary>Gradient checkpointing</summary>
+
+This will help to use `less GPU memory` during training, that is, you will be able to learn more than without this technique. The disadvantages of this technique is slowing down the forward step, that is, `slowing down training`.
+
+You will be training larger models (for example 7B in colab), but at the expense of training speed.
+
+```python
+config = Config(
+    model_name_or_path="HuggingFaceH4/zephyr-7b-beta",
+    use_gradient_checkpointing=True,
+)
+```
 </details>
 
 <details>
-  <summary>Flash Attention</summary>
+  <summary>Flash Attention 2</summary>
+
+This speeds up training and GPU memory consumption, but it does not work with all models and GPUs. You also need to install `flash-attn` for this. This can be done using:  
+
+`pip install xllm[train]`
+
+```python
+config = Config(
+    model_name_or_path="meta-llama/Llama-2-7b-hf",
+    use_flash_attention_2=True,
+)
+```
 </details>
 
 <details>
-  <summary>QLoRA, Gradient checkpointing & Flash Attention</summary>
+  <summary>Combine all</summary>
+
+Features:
+- QLoRA
+- Gradient checkpointing
+- Flash Attention 2
+- Stabilize training
+- Push checkpoints to HuggingFace Hub
+- W&B report
+
+```python
+config = Config(
+    model_name_or_path="meta-llama/Llama-2-7b-hf",
+    use_gradient_checkpointing=True,
+    stabilize=True,
+    use_flash_attention_2=True,
+    load_in_4bit=True,
+    prepare_model_for_kbit_training=True,
+    apply_lora=True,
+    warmup_steps=1000,
+    max_steps=10000,
+    logging_steps=1,
+    save_steps=1000,
+
+    per_device_train_batch_size=2,
+    gradient_accumulation_steps=2,
+    max_length=2048,
+
+    tokenizer_padding_side="right",  # good for llama2
+
+    push_to_hub=False,
+    hub_private_repo=True,
+    hub_model_id="BobaZooba/SupaDupaLlama-7B-LoRA",
+
+    report_to_wandb=False,
+    wandb_project="xllm-demo",
+    wandb_entity="bobazooba",
+)
+```
+
 </details>
 
 <details>
   <summary>Fuse</summary>
+
+This operation is only for models with a LoRA adapter.
+
+You can explicitly specify to fuse the model after training.
+
+```python
+config = Config(
+    model_name_or_path="HuggingFaceH4/zephyr-7b-beta", 
+    apply_lora=True,
+    fuse_after_train=True,
+)
+```
+
+Even when you are using QLoRa
+
+```python
+config = Config(
+    model_name_or_path="HuggingFaceH4/zephyr-7b-beta",
+    apply_lora=True,
+    load_in_4bit=True,
+    prepare_model_for_kbit_training=True,
+    fuse_after_train=True,
+)
+```
+
+Or you can fuse the model yourself after training.
+
+```python
+experiment.fuse_lora()
+```
+
 </details>
 
 <details>
   <summary>DeepSpeed</summary>
-</details>
 
-<details>
-  <summary>GPTQ Quantization</summary>
+`DeepSpeed` is needed for training models on `multiple GPUs`. `DeepSpeed` allows you to `efficiently manage the resources of several GPUs during training`. For example, you can `distribute the gradients and the state of the optimizer to several GPUs`, rather than storing a complete set of gradients and the state of the optimizer on each GPU. Starting training using `DeepSpeed` can only happen from the `command line`.
+
+`train.py`
+```python
+from xllm.core.config import Config
+from xllm.cli.train import cli_run_train
+
+if __name__ == '__main__':
+    cli_run_train(config_cls=Config)
+```
+
+Run train
+```bash
+deepspeed --num_gpus=8 train.py --deepspeed_stage 2
+```
+
 </details>
 
 ### Colab notebooks
 
-- 
+| Name      | Comment                                                                            | Link |
+|-----------|------------------------------------------------------------------------------------|------|
+| X—LLM Prototyping    | In this notebook you will learn the basics of the library                          | <a target="_blank" href="https://colab.research.google.com/github/https://colab.research.google.com/drive/1zsNmJFns1PKZy5VE5p5nsQL-mZF7SwHf?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> |
+| Llama2 & Mistral AI efficient fine-tuning | 7B model training in colab using QLoRA, bnb int4, gradient checkpointing and X—LLM | <a target="_blank" href="https://colab.research.google.com/github/https://colab.research.google.com/drive/1CNNB_HPhQ8g7piosdehqWlgA30xoLauP?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> |
 
 ## Production solution 🚀
 
