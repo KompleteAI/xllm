@@ -56,7 +56,7 @@ Are you using **Large Language Models (LLMs)** for your work and want to train t
 
 # Quickstart 🦖
 
-## Installation
+### Installation
 
 X—LLM is tested on Python 3.8+, PyTorch 2.0.1+ and CUDA 11.8.
 
@@ -72,7 +72,7 @@ pip install xllm[train]
 
 Default `xllm` version recommended for local development, `xllm[train]` recommended for training.
 
-### Training recommended environment
+#### Training recommended environment
 
 CUDA version: `11.8`  
 Docker: `huggingface/transformers-pytorch-gpu:latest`
@@ -84,7 +84,7 @@ from xllm import Config
 from xllm.datasets import GeneralDataset
 from xllm.experiments import Experiment
 
-# 1. Init Config
+# 1. Init Config. It controls the internal logic of xllm, whether to apply LoRA and so on
 config = Config(model_name_or_path="facebook/opt-350m")
 
 # 2. Prepare data
@@ -93,16 +93,19 @@ train_data = ["Hello!"] * 100
 # 3. Load data
 train_dataset = GeneralDataset.from_list(data=train_data)
 
-# 4. Init Experiment
+# 4. Init Experiment. Putting everything you need for training together
 experiment = Experiment(config=config, train_dataset=train_dataset)
 
-# 5. Build Experiment
+# 5. Build Experiment. This step takes some time. Make the tokenizer initialized, the model is applied, LoRA is applied, bittsandbytes quantization is applied, etc
 experiment.build()
 
-# 6. Run Experiment
+# 6. Run Experiment. This is where the model is trained and all the actions that are specified after the training
 experiment.run()
 
-# 7. [Optional] Push to HF Hub
+# 7. [Optional] Fuse LoRA layers. Works even with 4bit and 8bit bitsandbytes quantization
+experiment.fuse_lora()
+
+# 8. [Optional] Push fused model to the HuggingFace Hub
 experiment.push_to_hub(repo_id="YOUR_NAME/MODEL_NAME")
 ```
 
@@ -112,19 +115,29 @@ experiment.push_to_hub(repo_id="YOUR_NAME/MODEL_NAME")
 #### Simple
 
 ```python
-config = Config(model_name_or_path="facebook/opt-350m")
+config = Config(apply_lora=True)
 ```
 
 #### Advanced
 
 ```python
-config = Config(model_name_or_path="facebook/opt-350m")
+config = Config(
+    apply_lora=True,
+    lora_rank=8,
+    lora_alpha=32,
+    lora_dropout=0.05,
+    raw_lora_target_modules="k,q,v",  # Names of modules to apply LoRA. A comma-separated string, for example: "k,q,v".
+)
 ```
 
 </details>
 
 <details>
   <summary>QLoRA</summary>
+</details>
+
+<details>
+  <summary>Push checkpoints to the HuggingFace Hub</summary>
 </details>
 
 <details>
@@ -150,6 +163,10 @@ config = Config(model_name_or_path="facebook/opt-350m")
 <details>
   <summary>GPTQ Quantization</summary>
 </details>
+
+### Colab notebooks
+
+- 
 
 ## Production solution 🚀
 

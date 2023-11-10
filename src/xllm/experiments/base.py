@@ -425,6 +425,9 @@ class Experiment:
 
         self.after_train()
 
+        if self.config.fuse_after_train:
+            self.fuse_lora()
+
         if is_distributed_training():
             if distributed.get_rank() == self.config.local_rank:
                 post_training(config=self.config, tokenizer=self.tokenizer)
@@ -484,7 +487,12 @@ class Experiment:
 
         dist_logger("LoRA fused")
 
+        self.after_fuse()
+
         return self.model
+
+    def after_fuse(self) -> None:
+        return None
 
     def after_train(self) -> None:
         return None

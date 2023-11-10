@@ -152,6 +152,12 @@ class Config:
             "help": "Local path to fused model. Useful if you want to quantize model after fusing on the same machine",
         },
     )
+    fuse_after_train: bool = field(
+        default=False,
+        metadata={
+            "help": "Fuse or not model after training",
+        },
+    )
 
     # gptq quantization
     quantization_dataset_id: Optional[str] = field(
@@ -367,7 +373,7 @@ class Config:
         },
     )
     lora_rank: int = field(
-        default=64,
+        default=8,
         metadata={
             "help": "LoRA rank value. LoRA matrices W_A x R and R x W_B, where R is LoRA rank",
         },
