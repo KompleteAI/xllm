@@ -87,19 +87,22 @@ from xllm.experiments import Experiment
 # 1. Init Config. It controls the internal logic of xllm, whether to apply LoRA and so on
 config = Config(model_name_or_path="facebook/opt-350m")
 
-# 2. Prepare data
+# 2. Prepare the data
 train_data = ["Hello!"] * 100
 
-# 3. Load data
+# 3. Load the data
 train_dataset = GeneralDataset.from_list(data=train_data)
 
 # 4. Init Experiment. Putting everything you need for training together
 experiment = Experiment(config=config, train_dataset=train_dataset)
 
-# 5. Build Experiment. This step takes some time. Make the tokenizer initialized, the model is applied, LoRA is applied, bittsandbytes quantization is applied, etc
+# 5. Build Experiment.
+# This step takes some time.
+# Make the tokenizer initialized, the model is applied, LoRA is applied, bittsandbytes quantization is applied, etc
 experiment.build()
 
-# 6. Run Experiment. This is where the model is trained and all the actions that are specified after the training
+# 6. Run Experiment.
+# This is where the model is trained and all the actions that are specified after the training
 experiment.run()
 
 # 7. [Optional] Fuse LoRA layers. Works even with 4bit and 8bit bitsandbytes quantization
@@ -126,7 +129,7 @@ config = Config(
     lora_rank=8,
     lora_alpha=32,
     lora_dropout=0.05,
-    raw_lora_target_modules="k,q,v",  # Names of modules to apply LoRA. A comma-separated string, for example: "k,q,v".
+    raw_lora_target_modules="k,q,v",  # Names of modules to apply LoRA. A comma-separated string, for example: "k,q,v" or "all".
 )
 ```
 
