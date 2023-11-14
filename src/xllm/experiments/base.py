@@ -30,7 +30,7 @@ from transformers import (
 from transformers.integrations.bitsandbytes import replace_with_bnb_linear
 
 from ..collators.base import BaseCollator
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..core.dependencies import (
     build_collator,
     build_dataset,
@@ -51,7 +51,7 @@ from ..utils.post_training import post_training, push_to_hub_bos_add_bos_token
 class Experiment:
     def __init__(
         self,
-        config: HuggingFaceConfig,
+        config: Config,
         training_arguments: Optional[TrainingArguments] = None,
         train_dataset: Optional[BaseDataset] = None,
         eval_dataset: Optional[BaseDataset] = None,
@@ -427,6 +427,9 @@ class Experiment:
 
         self.after_train()
 
+        if self.config.fuse_after_training:
+            self.fuse_lora()
+
         if is_distributed_training():
             if distributed.get_rank() == self.config.local_rank:
                 post_training(config=self.config, tokenizer=self.tokenizer)
@@ -486,7 +489,12 @@ class Experiment:
 
         dist_logger("LoRA fused")
 
+        self.after_fuse()
+
         return self.model
+
+    def after_fuse(self) -> None:
+        return None
 
     def after_train(self) -> None:
         return None

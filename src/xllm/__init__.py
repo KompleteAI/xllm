@@ -20,7 +20,7 @@ from . import enums, types
 from .cli.fuse import cli_run_fuse
 from .cli.prepare import cli_run_prepare
 from .cli.train import cli_run_train
-from .core.config import HuggingFaceConfig
+from .core.config import Config
 from .run.fuse import fuse
 from .run.prepare import prepare
 from .run.train import train

@@ -2,14 +2,14 @@ import os
 
 from pytest import MonkeyPatch
 
-from src.xllm.core.config import HuggingFaceConfig
+from src.xllm.core.config import Config
 from src.xllm.experiments.base import Experiment
 from tests.helpers.constants import LLAMA_TOKENIZER_DIR
 from tests.helpers.patches import patch_from_pretrained_auto_causal_lm, patch_trainer_train
 
 
 def test_base_experiment_init(monkeypatch: MonkeyPatch, path_to_train_dummy_data: str):
-    config = HuggingFaceConfig(
+    config = Config(
         push_to_hub=False,
         deepspeed_stage=0,
         train_local_path_to_data=path_to_train_dummy_data,
@@ -21,7 +21,7 @@ def test_base_experiment_init(monkeypatch: MonkeyPatch, path_to_train_dummy_data
 
 def test_base_experiment_train(monkeypatch: MonkeyPatch, path_to_train_prepared_dummy_data: str, path_to_outputs: str):
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
-    config = HuggingFaceConfig(
+    config = Config(
         push_to_hub=False,
         deepspeed_stage=0,
         train_local_path_to_data=path_to_train_prepared_dummy_data,

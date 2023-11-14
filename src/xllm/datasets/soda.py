@@ -19,7 +19,7 @@ import numpy as np
 from tqdm import tqdm
 
 from .. import enums
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..datasets.base import BaseDataset
 from ..types import RawSample
 
@@ -35,7 +35,7 @@ class SodaDataset(BaseDataset):
         self.header_drop_probability = header_drop_probability
 
     @classmethod
-    def get_data(cls, config: HuggingFaceConfig) -> Optional[Tuple[List[RawSample], Optional[List[RawSample]]]]:
+    def get_data(cls, config: Config) -> Optional[Tuple[List[RawSample], Optional[List[RawSample]]]]:
         soda_dataset = datasets.load_dataset(cls._HF_DATASET_ID)
 
         parsed_data: Dict[str, List[RawSample]] = dict()

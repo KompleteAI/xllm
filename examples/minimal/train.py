@@ -1,6 +1,6 @@
 import datasets
 from tqdm import tqdm
-from xllm import HuggingFaceConfig
+from xllm import Config
 from xllm.datasets import GeneralDataset
 from xllm.experiments import Experiment
 
@@ -24,7 +24,7 @@ def run():
     train_dataset = GeneralDataset.from_list(data=train)
     eval_dataset = GeneralDataset.from_list(data=evaluation)
 
-    config = HuggingFaceConfig(model_name_or_path="facebook/opt-350m")
+    config = Config(model_name_or_path="facebook/opt-350m")
 
     experiment = Experiment(config=config, train_dataset=train_dataset, eval_dataset=eval_dataset)
 

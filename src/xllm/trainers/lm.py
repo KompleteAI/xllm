@@ -20,14 +20,14 @@ from transformers import PreTrainedModel, Trainer, TrainingArguments
 
 from .. import enums
 from ..collators.base import BaseCollator
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..datasets.base import BaseDataset
 
 
 class LMTrainer(Trainer):
     def __init__(
         self,
-        config: HuggingFaceConfig,
+        config: Config,
         model: Union[PreTrainedModel, PeftModel],
         args: TrainingArguments,
         data_collator: BaseCollator,

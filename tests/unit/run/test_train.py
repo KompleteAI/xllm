@@ -1,6 +1,6 @@
 from pytest import MonkeyPatch
 
-from src.xllm.core.config import HuggingFaceConfig
+from src.xllm.core.config import Config
 from src.xllm.run.train import train
 from tests.helpers.constants import LLAMA_TOKENIZER_DIR
 from tests.helpers.patches import patch_from_pretrained_auto_causal_lm, patch_trainer_train

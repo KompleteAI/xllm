@@ -21,7 +21,7 @@ from typing import Any, List, Optional, Tuple
 from loguru import logger
 from torch.utils.data import Dataset
 
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..core.constants import DATASETS_MUST_HAVE_KEYS
 from ..types import RawSample
 from ..utils.miscellaneous import have_missing_keys
@@ -35,7 +35,7 @@ class BaseDataset(Dataset[RawSample], ABC):
         self.data = data
 
     @classmethod
-    def prepare(cls, config: HuggingFaceConfig) -> None:
+    def prepare(cls, config: Config) -> None:
         raw_data = cls.get_data(config=config)
 
         if raw_data is None:
@@ -103,7 +103,7 @@ class BaseDataset(Dataset[RawSample], ABC):
 
     @classmethod
     @abstractmethod
-    def get_data(cls, config: HuggingFaceConfig) -> Optional[Tuple[List[RawSample], Optional[List[RawSample]]]]:
+    def get_data(cls, config: Config) -> Optional[Tuple[List[RawSample], Optional[List[RawSample]]]]:
         raise NotImplementedError
 
     @abstractmethod

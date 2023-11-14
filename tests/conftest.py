@@ -16,7 +16,7 @@ from transformers import (
 
 from src.xllm import enums
 from src.xllm.collators.lm import LMCollator
-from src.xllm.core.config import HuggingFaceConfig
+from src.xllm.core.config import Config
 from src.xllm.datasets.soda import SodaDataset
 from tests.helpers.constants import (
     FALCON_TOKENIZER_DIR,
@@ -137,8 +137,8 @@ def training_arguments(path_to_outputs: str) -> TrainingArguments:
 
 
 @pytest.fixture(scope="session")
-def config() -> HuggingFaceConfig:
-    hf_config = HuggingFaceConfig(deepspeed_stage=0)
+def config() -> Config:
+    hf_config = Config(deepspeed_stage=0)
     return hf_config
 
 

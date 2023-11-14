@@ -27,7 +27,7 @@ from ..utils.logger import dist_logger
 
 
 @dataclass
-class HuggingFaceConfig:
+class Config:
     # general
     experiment_key: str = field(
         default=enums.Experiments.base,
@@ -150,6 +150,12 @@ class HuggingFaceConfig:
         default=None,
         metadata={
             "help": "Local path to fused model. Useful if you want to quantize model after fusing on the same machine",
+        },
+    )
+    fuse_after_training: bool = field(
+        default=False,
+        metadata={
+            "help": "Fuse or not model after training",
         },
     )
 
@@ -367,7 +373,7 @@ class HuggingFaceConfig:
         },
     )
     lora_rank: int = field(
-        default=64,
+        default=8,
         metadata={
             "help": "LoRA rank value. LoRA matrices W_A x R and R x W_B, where R is LoRA rank",
         },

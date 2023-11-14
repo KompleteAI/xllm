@@ -22,13 +22,13 @@ from loguru import logger
 from peft import PeftModel  # type: ignore
 from transformers import AutoModelForCausalLM, PreTrainedModel, PreTrainedTokenizer
 
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..core.dependencies import build_tokenizer
 
 TOKENIZER_CONFIG_FILE = "tokenizer_config.json"
 
 
-def fuse_lora(config: HuggingFaceConfig) -> Tuple[PreTrainedTokenizer, PreTrainedModel]:
+def fuse_lora(config: Config) -> Tuple[PreTrainedTokenizer, PreTrainedModel]:
     lora_model_name_or_path_for_fusing = config.lora_model_name_or_path_for_fusing
 
     tokenizer = build_tokenizer(config=config)
@@ -119,7 +119,7 @@ def push_to_hub_bos_add_bos_token(repo_id: str) -> None:
     return None
 
 
-def post_training(config: HuggingFaceConfig, tokenizer: PreTrainedTokenizer) -> None:
+def post_training(config: Config, tokenizer: PreTrainedTokenizer) -> None:
     if config.push_to_hub:
         if config.hub_model_id is None:
             raise ValueError("hub_model_id is None, but you want to push to HF hub")

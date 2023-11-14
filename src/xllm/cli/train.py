@@ -12,27 +12,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Type
+from typing import Optional, Type
 
 from transformers import (
     HfArgumentParser,
 )
 
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
+from ..datasets.general import GeneralDataset
 from ..experiments.base import Experiment
 from ..run.train import train
 from ..utils.cli import setup_cli
 
 
 def cli_run_train(
-    config_cls: Type[HuggingFaceConfig] = HuggingFaceConfig,
+    config_cls: Type[Config] = Config,
+    train_dataset: Optional[GeneralDataset] = None,
+    eval_dataset: Optional[GeneralDataset] = None,
 ) -> Experiment:
     parser = HfArgumentParser(config_cls)
     config = parser.parse_args_into_dataclasses()[0]
     setup_cli(config=config, logger_path="./xllm_train.log")
-    experiment = train(config=config)
+    experiment = train(config=config, train_dataset=train_dataset, eval_dataset=eval_dataset)
     return experiment
 
 
 if __name__ == "__main__":
-    cli_run_train(config_cls=HuggingFaceConfig)
+    cli_run_train(config_cls=Config)

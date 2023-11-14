@@ -1,6 +1,6 @@
 from pytest import MonkeyPatch
 
-from src.xllm.core.config import HuggingFaceConfig
+from src.xllm.core.config import Config
 from src.xllm.run.fuse import fuse
 from tests.helpers.patches import (
     patch_from_pretrained_auto_causal_lm,
@@ -10,7 +10,7 @@ from tests.helpers.patches import (
 
 
 def test_fuse(monkeypatch: MonkeyPatch, path_to_fused_model_local_path: str):
-    config = HuggingFaceConfig(
+    config = Config(
         push_to_hub=True,
         hub_model_id="KompleteAI/SomeModelLoRA",
         lora_hub_model_id="KompleteAI/SomeModelLoRA",

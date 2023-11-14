@@ -22,11 +22,11 @@ from transformers import (
     PreTrainedModel,
 )
 
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 
 
 def apply_lora(
-    config: HuggingFaceConfig, model: PreTrainedModel, lora_config: Optional[LoraConfig] = None
+    config: Config, model: PreTrainedModel, lora_config: Optional[LoraConfig] = None
 ) -> Tuple[PeftModel, LoraConfig]:
     lora_target_modules = config.lora_target_modules
 

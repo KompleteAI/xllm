@@ -16,13 +16,13 @@ from typing import Tuple, Type
 
 from transformers import HfArgumentParser, PreTrainedModel, PreTrainedTokenizer
 
-from ..core.config import HuggingFaceConfig
+from ..core.config import Config
 from ..run.prepare import prepare
 from ..utils.cli import setup_cli
 
 
 def cli_run_prepare(
-    config_cls: Type[HuggingFaceConfig] = HuggingFaceConfig,
+    config_cls: Type[Config] = Config,
 ) -> Tuple[PreTrainedTokenizer, PreTrainedModel]:
     parser = HfArgumentParser(config_cls)
     config = parser.parse_args_into_dataclasses()[0]

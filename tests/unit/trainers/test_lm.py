@@ -3,13 +3,13 @@ from torch import Tensor
 from transformers import TrainingArguments
 
 from src.xllm.collators.lm import LMCollator
-from src.xllm.core.config import HuggingFaceConfig
+from src.xllm.core.config import Config
 from src.xllm.datasets.soda import SodaDataset
 from src.xllm.trainers.lm import LMTrainer
 
 
 def test_lm_trainer(
-    config: HuggingFaceConfig,
+    config: Config,
     llama_lora_model: PeftModel,
     training_arguments: TrainingArguments,
     llama_lm_collator: LMCollator,
