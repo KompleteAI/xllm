@@ -1,3 +1,5 @@
+# Moved to https://github.com/BobaZooba/xllm
+
 # 🦖 X—LLM: Simple & Cutting Edge LLM Finetuning
 
 <div align="center">
