@@ -15,6 +15,7 @@ def test_get_lm_trainer(
     training_arguments: TrainingArguments,
     llama_lm_collator: LMCollator,
     soda_dataset: SodaDataset,
+    path_to_outputs: str,
 ):
     trainer_cls = trainers_registry.get(key=enums.Trainers.lm)
     trainer = trainer_cls(
